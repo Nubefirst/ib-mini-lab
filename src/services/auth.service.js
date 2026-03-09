@@ -1,5 +1,8 @@
 import db from '../config/db.js';
 import { hashPassword } from '../utils/hash.js';
+import jwt from "jsonwebtoken";
+import { JWT_SECRET } from "../config/jwt.js";
+import bcrypt from "bcrypt";
 
 export const registerUser = async (data) => {
 
@@ -29,3 +32,44 @@ export const registerUser = async (data) => {
 
     return result.rows[0];
 };
+
+export async function loginUser(email, password) {
+
+    console.log("loginUser called");
+    console.log("EMAIL:", email);
+    console.log("PASSWORD:", password);
+
+    const result = await db.query(
+        "SELECT * FROM users WHERE email = $1",
+        [email]
+    );
+
+    const user = result.rows[0];
+
+    console.log("USER FROM DB:", user);
+
+    if (!user) {
+        throw new Error("Invalid credentials");
+    }
+
+    const isValid = await bcrypt.compare(password, user.password_hash);
+
+    console.log("PASSWORD VALID:", isValid);
+
+    if (!isValid) {
+        throw new Error("Invalid credentials");
+    }
+
+
+    const token = jwt.sign(
+        {
+            id: user.id,
+            email: user.email,
+            role: user.role
+        },
+        JWT_SECRET,
+        { expiresIn: "1h" }
+    );
+
+    return { token };
+}
