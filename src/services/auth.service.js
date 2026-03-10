@@ -35,10 +35,6 @@ export const registerUser = async (data) => {
 
 export async function loginUser(email, password) {
 
-    console.log("loginUser called");
-    console.log("EMAIL:", email);
-    console.log("PASSWORD:", password);
-
     const result = await db.query(
         "SELECT * FROM users WHERE email = $1",
         [email]
@@ -46,20 +42,13 @@ export async function loginUser(email, password) {
 
     const user = result.rows[0];
 
-    console.log("USER FROM DB:", user);
+    const isValid = user
+        ? await bcrypt.compare(password, user.password_hash)
+        : false;
 
-    if (!user) {
-        throw new Error("Invalid credentials");
+    if (!user || !isValid) {
+        throw new Error("Invalid email or password");
     }
-
-    const isValid = await bcrypt.compare(password, user.password_hash);
-
-    console.log("PASSWORD VALID:", isValid);
-
-    if (!isValid) {
-        throw new Error("Invalid credentials");
-    }
-
 
     const token = jwt.sign(
         {
