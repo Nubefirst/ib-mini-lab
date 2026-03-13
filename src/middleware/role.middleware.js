@@ -1,4 +1,4 @@
-export function roleMiddleware(role) {
+export function requireRole(role) {
 
     return (req, res, next) => {
 
