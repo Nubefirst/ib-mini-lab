@@ -1,6 +1,7 @@
 import express from "express";
 import { authMiddleware } from "../middleware/auth.middleware.js";
 import { requireRole } from "../middleware/role.middleware.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 import {
     getUsers,
@@ -14,21 +15,21 @@ router.get(
     "/users",
     authMiddleware,
     requireRole("admin"),
-    getUsers
+    asyncHandler(getUsers)
 );
 
 router.patch(
     "/users/:id/role",
     authMiddleware,
     requireRole("admin"),
-    changeUserRole
+    asyncHandler(changeUserRole)
 );
 
 router.delete(
     "/users/:id",
     authMiddleware,
     requireRole("admin"),
-    removeUser
+    asyncHandler(removeUser)
 );
 
 export default router;

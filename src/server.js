@@ -3,7 +3,7 @@ import { PORT } from './config/index.js';
 import authRouter from './routes/auth.routes.js';
 import userRoutes from "./routes/user.routes.js";
 import adminRoutes from "./routes/admin.routes.js";
-
+import { errorHandler } from "./middleware/error.middleware.js";
 
 const app = express();
 
@@ -16,3 +16,5 @@ app.use("/admin", adminRoutes);
 app.listen(PORT, () => {
     console.log(`Server started on port ${PORT}`);
 });
+
+app.use(errorHandler);

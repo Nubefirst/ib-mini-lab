@@ -1,10 +1,11 @@
 import express from "express";
 import { register, login } from "../controllers/auth.controller.js";
 import { loginLimiter } from "../middleware/rateLimiter.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
 
 const router = express.Router();
 
 router.post("/register", register);
-router.post("/login", loginLimiter, login);
+router.post("/login", loginLimiter, asyncHandler(login));
 
 export default router;

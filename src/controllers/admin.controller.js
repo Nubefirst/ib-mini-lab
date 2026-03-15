@@ -15,19 +15,14 @@ export async function getUsers (req, res) {
     }
 }
 
-export async function changeUserRole (req, res) {
+export async function changeUserRole(req, res) {
 
-    try{
-        const { id } = req.params;
-        const { role } = req.body;
+    const { id } = req.params;
+    const { role } = req.body;
 
-        const user = await updateUserRole(id, role);
-        res.json(user);
-    } catch (err) {
-        res.status(500).json({
-            message: "Server Error"
-        })
-    }
+    const user = await updateUserRole(id, role);
+
+    res.json(user);
 }
 
 export async function removeUser(req, res) {
