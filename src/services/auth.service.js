@@ -42,9 +42,10 @@ export async function loginUser(email, password) {
 
     const user = result.rows[0];
 
-    const isValid = user
-        ? await bcrypt.compare(password, user.password_hash)
-        : false;
+    const passwordHash = user
+        ? user.password_hash
+        : "$2b$10$CwTycUXWue0Thq9StjUM0uJ8m7u9v5K9yQh9v5K9yQh9v5K9yQh9u";
+    const isValid = await bcrypt.compare(password, passwordHash);
 
     if (!user || !isValid) {
         throw new Error("Invalid email or password");

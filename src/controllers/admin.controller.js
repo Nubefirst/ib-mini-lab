@@ -17,10 +17,15 @@ export async function getUsers (req, res) {
 
 export async function changeUserRole(req, res) {
 
-    const { id } = req.params;
+    const adminId = req.user.id;
+    const userId = req.params.id;
     const { role } = req.body;
 
-    const user = await updateUserRole(id, role);
+    console.log("adminId:", adminId);
+    console.log("userId:", userId);
+    console.log("role:", role);
+
+    const user = await updateUserRole(adminId, userId, role);
 
     res.json(user);
 }
@@ -47,7 +52,7 @@ export async function removeUser(req, res) {
             });
         }
 
-        const user = await deleteUser(id);
+        const user = await deleteUser(req.user.id, id);
 
         res.json({
             message: "User deleted",
