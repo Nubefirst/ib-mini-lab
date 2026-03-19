@@ -1,3 +1,40 @@
-Auth & Access Service (Production-style) — это учебный проект, цель которого показать навыки построения полноценного бэкенд-сервиса для аутентификации и авторизации пользователей. Сервис предоставляет безопасное хранение пользователей, выдачу токенов, управление правами доступа и простой API для интеграции с другими сервисами.
+# Auth & Access Service
 
-Основная цель — продемонстрировать проектирование, структурирование кода, работу с Node.js/Express, настройку окружения и построение базовой инфраструктуры с возможностью дальнейшего масштабирования.
+Production-style authentication and authorization API built with Node.js and PostgreSQL.
+
+## 🚀 Features
+
+- JWT Authentication
+- Role-Based Access Control (RBAC)
+- Admin API
+- Input Validation (Zod)
+- Rate Limiting
+- Secure Password Hashing (bcrypt)
+- Audit Logging
+- Protection against Timing Attacks
+
+## 🛠 Tech Stack
+
+- Node.js
+- Express.js
+- PostgreSQL
+- JWT
+- Zod
+
+## 📚 API Documentation
+
+Swagger UI available at:
+
+http://localhost:3000/docs
+
+## 🔐 Authentication
+
+Use Bearer token:
+
+Authorization: Bearer <token>
+
+## 📦 Installation
+
+```bash
+npm install
+npm run dev
